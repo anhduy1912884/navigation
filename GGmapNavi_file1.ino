@@ -73,17 +73,17 @@ void drawDestinationIcon() {
 
 // Hàm vẽ thanh tỷ lệ khoảng cách - Thanh sát dưới, chữ ở trên thanh
 void drawDistanceBar(uint32_t distanceTravelled, uint32_t maxDistance) {
-  const int barX = 10;
-  const int barY = SCREEN_HEIGHT - 12; // Thanh sát mép dưới (64 - 12 = 52)
-  const int barWidth = 108;
+  const int barWidth = 180;
+  const int barX = 120-(barWidth/2);
+  const int barY = SCREEN_HEIGHT - 34; // Thanh sát mép dưới (64 - 12 = 52)
   const int barHeight = 12;
 
-  tft.drawRect(barX, barY, barWidth, barHeight, TFT_WHITE);
+  tft.fillRect(barX, barY, barWidth, barHeight, TFT_RED);
   int fillWidth = map(distanceTravelled, 0, maxDistance, 0, barWidth - 2);
   if (fillWidth < 0) fillWidth = 0;
-  if (fillWidth > barWidth - 2) fillWidth = barWidth - 2;
+  if (fillWidth > barWidth) fillWidth = barWidth;
 
-  tft.fillRect(barX + 1, barY + 1, fillWidth, barHeight - 2, TFT_WHITE);
+  tft.fillRect(barX, barY, fillWidth, barHeight , TFT_WHITE);
 
   // Tính toán giá trị khoảng cách còn lại
   uint32_t remainingDistance = maxDistance - distanceTravelled;
@@ -158,14 +158,14 @@ class MyCharacteristicCallbacks: public BLECharacteristicCallbacks {
           uint8_t speed = value[1];
           tft.setTextSize(1);
           int textWidth = speed < 10 ? 12 : 24;
-          int circleX = 70;
-          int circleY = 90;
+          int textHigh = 12;
+          int circleX = 26 + 15;
+          int circleY = 26 + 50;
           int xPos = circleX - (textWidth / 2);
-          int yPos = circleY - 8;
-          
+          int yPos = circleY + (textHigh /2);
          
-          tft.fillCircle(circleX, circleY, 34, TFT_RED);
-          tft.fillCircle(circleX, circleY, 30, TFT_WHITE);
+          tft.fillCircle(circleX, circleY, 26, TFT_RED);
+          tft.fillCircle(circleX, circleY, 23, TFT_WHITE);
 
           tft.setFreeFont(&FreeMonoBold12pt7b);
           tft.setTextColor(TFT_BLACK);
